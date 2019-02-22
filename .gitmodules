@@ -1,0 +1,6 @@
+[submodule "simplesamlphp_docker"]
+	path = simplesamlphp_docker
+	url = https://github.com/tomdickman/simplesamlphp_docker.git
+[submodule "saml"]
+	path = saml
+	url = https://github.com/tomdickman/simplesamlphp_docker.git
