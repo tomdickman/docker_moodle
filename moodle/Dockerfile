@@ -53,7 +53,7 @@ RUN cd / && mkdir /xhgui && chown -R www-data:www-data /xhgui
 RUN git clone https://github.com/perftools/xhgui.git /xhgui && chmod -R 0777 /xhgui
 RUN cd /xhgui && curl -sS https://getcomposer.org/installer | php && composer install
 RUN php /xhgui/install.php
-COPY xhgui.conf /etc/nginx/sites-available/xhgui.conf
+COPY xhgui.conf /etc/nginx/sites-available/xhgui
 COPY xhgui-config.php /xhgui/config/config.php
 RUN ln -s /etc/nginx/sites-available/xhgui.conf /etc/nginx/sites-enabled/xhgui.conf
 
