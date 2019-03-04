@@ -55,7 +55,7 @@ RUN cd /xhgui && curl -sS https://getcomposer.org/installer | php && composer in
 RUN php /xhgui/install.php
 COPY xhgui.conf /etc/nginx/sites-available/xhgui
 COPY xhgui-config.php /xhgui/config/config.php
-RUN ln -s /etc/nginx/sites-available/xhgui.conf /etc/nginx/sites-enabled/xhgui.conf
+RUN ln -s /etc/nginx/sites-available/xhgui /etc/nginx/sites-enabled/xhgui
 
 # Make our Moodle folder to mount our Moodle repo to
 RUN mkdir /siteroot
