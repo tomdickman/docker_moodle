@@ -1,14 +1,24 @@
 version: '3'
-
+# Before running this, make sure you create the docker network via this command:
+# docker network create --driver=bridge --subnet=192.172.0.0/16 --gateway=192.172.0.1 moodlenet
 services:
-  moodle:
-    build: ./moodle
+  kmart:
+    build: ./totara_29
     ports:
-      - "80:80"
+      - "8443:8443"
+      - "8080:8080"
+    networks:
+      moodlenet:
+        ipv4_address: 192.172.0.5
     volumes:
-      - ./siteroot:/siteroot
-  moodle-db:
+      - ./kmart:/siteroot
+  kmart-db:
     image: postgres
+    ports:
+      - "5432:5432"
+    networks:
+      moodlenet:
+        ipv4_address: 192.172.0.3
     restart: always
     environment:
       POSTGRES_PASSWORD: password
@@ -16,8 +26,13 @@ services:
       POSTGRES_USER: moodle_user
     volumes: 
       - 'moodledb:/var/lib/postgresql'
-  moodle-test-db:
+  kmart-test-db:
     image: postgres
+    ports:
+      - "5433:5432"
+    networks:
+      moodlenet:
+        ipv4_address: 192.172.0.4
     restart: always
     environment:
       POSTGRES_PASSWORD: password
@@ -25,6 +40,26 @@ services:
       POSTGRES_USER: moodle_user
     volumes: 
       - 'moodletestdb:/var/lib/postgresql'
+  kmartsimplesamlphp:
+    build: ./saml
+    ports:
+      - "7443:7443"
+    networks:
+      moodlenet:
+        ipv4_address: 192.172.0.2
+    volumes:
+      - ./saml:/saml
+  kmartmongodb:
+    image: mongo:latest
+    ports:
+      - "2701:27017"
+    networks:
+      moodlenet:
+        ipv4_address: 192.172.0.6
+    
 volumes:
     moodledb:
     moodletestdb:
+networks:
+  moodlenet:
+    external: true
