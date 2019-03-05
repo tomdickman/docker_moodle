@@ -26,14 +26,18 @@ $CFG->phpunit_dbpass    = 'password';
 $CFG->phpunit_prefix = 'phpu_';
 $CFG->phpunit_dataroot = '/var/lib/testsitedata';
 
-$CFG->wwwroot   = 'http://localhost';
+$CFG->wwwroot   = 'https://192.172.0.5:8443';
 $CFG->dataroot  = '/var/lib/sitedata';
 
 $CFG->admin     = 'admin';
 
 //Force a debugging mode regardless the settings in the site administration
 @error_reporting(E_ALL | E_STRICT); // NOT FOR PRODUCTION SERVERS!
-$CFG->debug = (E_ALL | E_STRICT);   // === DEBUG_DEVELOPER - NOT FOR PRODUCTION SERVERS!
+@ini_set('display_errors', '1'); // NOT FOR PRODUCTION SERVERS!
+$CFG->debug = (E_ALL | E_STRICT); // === DEBUG_DEVELOPER - NOT FOR PRODUCTION SERVERS!
+$CFG->debugdisplay = 1; // NOT FOR PRODUCTION SERVERS!
+
+//$CFG->cachejs = false; // NOT FOR PRODUCTION SERVERS
 
 $CFG->noemailever = true;
 
