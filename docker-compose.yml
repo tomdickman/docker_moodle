@@ -2,8 +2,8 @@ version: '3'
 # Before running this, make sure you create the docker network via this command:
 # docker network create --driver=bridge --subnet=192.172.0.0/16 --gateway=192.172.0.1 moodlenet
 services:
-  kmart:
-    build: ./totara_29
+  moodle_35:
+    build: ./moodle_35
     ports:
       - "8443:8443"
       - "8080:8080"
@@ -12,7 +12,7 @@ services:
         ipv4_address: 192.172.0.5
     volumes:
       - ./kmart:/siteroot
-  kmart-db:
+  moodle-db:
     image: postgres
     ports:
       - "5432:5432"
@@ -26,7 +26,7 @@ services:
       POSTGRES_USER: moodle_user
     volumes: 
       - 'moodledb:/var/lib/postgresql'
-  kmart-test-db:
+  moodle-test-db:
     image: postgres
     ports:
       - "5433:5432"
@@ -40,7 +40,7 @@ services:
       POSTGRES_USER: moodle_user
     volumes: 
       - 'moodletestdb:/var/lib/postgresql'
-  kmartsimplesamlphp:
+  simplesamlphp:
     build: ./saml
     ports:
       - "7443:7443"
@@ -49,7 +49,7 @@ services:
         ipv4_address: 192.172.0.2
     volumes:
       - ./saml:/saml
-  kmartmongodb:
+  mongodb:
     image: mongo:latest
     ports:
       - "2701:27017"
