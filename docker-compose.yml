@@ -2,7 +2,7 @@ version: '3'
 # Before running this, make sure you create the docker network via this command:
 # docker network create --driver=bridge --subnet=192.172.0.0/16 --gateway=192.172.0.1 moodlenet
 services:
-  moodle_35:
+  moodle:
     build: ./moodle_35
     ports:
       - "8443:8443"
@@ -11,7 +11,7 @@ services:
       moodlenet:
         ipv4_address: 192.172.0.5
     volumes:
-      - ./kmart:/siteroot
+      - ./moodle-master:/siteroot
   moodle-db:
     image: postgres
     ports:

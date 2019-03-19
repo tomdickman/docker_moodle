@@ -1,4 +1,4 @@
-FROM ubuntu:16.04
+FROM ubuntu:18.04
 
 ARG DEBIAN_FRONTEND=noninteractive
 
@@ -33,7 +33,7 @@ RUN apt-get update -y \
     mongodb \
     vim
 
-COPY mongodb.ini /etc/php/7.0/mods-available/mongodb.ini
+COPY mongodb.ini /etc/php/7.2/mods-available/mongodb.ini
 RUN pecl install mongodb
 
 RUN locale-gen en_AU.UTF-8
@@ -44,9 +44,9 @@ RUN cd /usr/local/lib/ && curl -sS https://getcomposer.org/installer | php && mv
 # Install Tideways/XHProf
 RUN cd / && git clone https://github.com/tideways/php-xhprof-extension.git xhprof
 RUN cd /xhprof && phpize && ./configure && make && make install
-COPY tideways_xhprof.ini /etc/php/7.0/mods-available/tideways_xhprof.ini
-RUN ln -s /etc/php/7.0/mods-available/tideways_xhprof.ini /etc/php/7.0/cli/conf.d/10-tideways_xhprof.ini
-RUN ln -s /etc/php/7.0/mods-available/tideways_xhprof.ini /etc/php/7.0/fpm/conf.d/10-tideways_xhprof.ini
+COPY tideways_xhprof.ini /etc/php/7.2/mods-available/tideways_xhprof.ini
+RUN ln -s /etc/php/7.2/mods-available/tideways_xhprof.ini /etc/php/7.2/cli/conf.d/10-tideways_xhprof.ini
+RUN ln -s /etc/php/7.2/mods-available/tideways_xhprof.ini /etc/php/7.2/fpm/conf.d/10-tideways_xhprof.ini
 
 # Install XHGui
 RUN cd / && mkdir /xhgui && chown -R www-data:www-data /xhgui
@@ -79,8 +79,8 @@ RUN rm /etc/nginx/nginx.conf
 COPY nginx.conf /etc/nginx/nginx.conf
 
 # Add our xdebug for debugging
-COPY 99-xdebug.ini /etc/php/7.0/mods-available/xdebug.ini
-COPY php.ini /etc/php/7.0/fpm/php.ini
+COPY 99-xdebug.ini /etc/php/7.2/mods-available/xdebug.ini
+COPY php.ini /etc/php/7.2/fpm/php.ini
 
 # Start up the php-fpm server and nginx - away we go!
-CMD service php7.0-fpm start && nginx
+CMD service php7.2-fpm start && nginx
