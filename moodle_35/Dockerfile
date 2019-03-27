@@ -41,21 +41,21 @@ RUN locale-gen en_AU.UTF-8
 # Install composer, we'll need this for packages
 RUN cd /usr/local/lib/ && curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/local/bin/composer
 
-# # Install Tideways/XHProf
-# RUN cd / && git clone https://github.com/tideways/php-xhprof-extension.git xhprof
-# RUN cd /xhprof && phpize && ./configure && make && make install
-# COPY tideways_xhprof.ini /etc/php/7.2/mods-available/tideways_xhprof.ini
-# RUN ln -s /etc/php/7.2/mods-available/tideways_xhprof.ini /etc/php/7.2/cli/conf.d/10-tideways_xhprof.ini
-# RUN ln -s /etc/php/7.2/mods-available/tideways_xhprof.ini /etc/php/7.2/fpm/conf.d/10-tideways_xhprof.ini
+# Install Tideways/XHProf
+RUN cd / && git clone https://github.com/tideways/php-xhprof-extension.git xhprof
+RUN cd /xhprof && phpize && ./configure && make && make install
+COPY tideways_xhprof.ini /etc/php/7.2/mods-available/tideways_xhprof.ini
+RUN ln -s /etc/php/7.2/mods-available/tideways_xhprof.ini /etc/php/7.2/cli/conf.d/10-tideways_xhprof.ini
+RUN ln -s /etc/php/7.2/mods-available/tideways_xhprof.ini /etc/php/7.2/fpm/conf.d/10-tideways_xhprof.ini
 
-# # Install XHGui
-# RUN cd / && mkdir /xhgui && chown -R www-data:www-data /xhgui
-# RUN git clone https://github.com/perftools/xhgui.git /xhgui && chmod -R 0777 /xhgui
-# RUN cd /xhgui && curl -sS https://getcomposer.org/installer | php && composer install
-# RUN php /xhgui/install.php
-# COPY xhgui.conf /etc/nginx/sites-available/xhgui
-# COPY xhgui-config.php /xhgui/config/config.php
-# RUN ln -s /etc/nginx/sites-available/xhgui /etc/nginx/sites-enabled/xhgui
+# Install XHGui
+RUN cd / && mkdir /xhgui && chown -R www-data:www-data /xhgui
+RUN git clone https://github.com/perftools/xhgui.git /xhgui && chmod -R 0777 /xhgui
+RUN cd /xhgui && curl -sS https://getcomposer.org/installer | php && composer install
+RUN php /xhgui/install.php
+COPY xhgui.conf /etc/nginx/sites-available/xhgui
+COPY xhgui-config.php /xhgui/config/config.php
+RUN ln -s /etc/nginx/sites-available/xhgui /etc/nginx/sites-enabled/xhgui
 
 # Make our Moodle folder to mount our Moodle repo to
 RUN mkdir /siteroot
