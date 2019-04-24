@@ -2,78 +2,78 @@ version: '3'
 # Before running this, make sure you create the docker network via this command:
 # docker network create --driver=bridge --subnet=192.172.0.0/16 --gateway=192.172.0.1 moodlenet
 services:
-  moodle:
+  monash:
     build: ./moodle_35
     ports:
-      - "8443:8443"
-      - "8080:8080"
+      - "18443:8443"
+      - "18080:8080"
     networks:
-      moodlenet:
-        ipv4_address: 192.172.0.5
+      monashnet:
+        ipv4_address: 192.173.0.5
     volumes:
-      - ./monash_mm:/siteroot
-  moodle-db:
+      - ./monash-siteroot:/siteroot
+  monash-db:
     image: postgres
     ports:
-      - "5432:5432"
+      - "15432:5432"
     networks:
-      moodlenet:
-        ipv4_address: 192.172.0.3
+      monashnet:
+        ipv4_address: 192.173.0.3
     restart: always
     environment:
       POSTGRES_PASSWORD: password
       POSTGRES_DB: moodle
       POSTGRES_USER: moodle_user
     volumes: 
-      - 'moodledb:/var/lib/postgresql'
-  moodle-test-db:
+      - 'monashdb:/var/lib/postgresql'
+  monash-test-db:
     image: postgres
     ports:
-      - "5433:5432"
+      - "15433:5432"
     networks:
-      moodlenet:
-        ipv4_address: 192.172.0.4
+      monashnet:
+        ipv4_address: 192.173.0.4
     restart: always
     environment:
       POSTGRES_PASSWORD: password
       POSTGRES_DB: moodle
       POSTGRES_USER: moodle_user
     volumes: 
-      - 'moodletestdb:/var/lib/postgresql'
-  moodle-integration-db:
+      - 'monashtestdb:/var/lib/postgresql'
+  monash-integration-db:
     image: postgres
     ports:
-      - "5434:5432"
+      - "15434:5432"
     networks:
-      moodlenet:
-        ipv4_address: 192.172.0.7
+      monashnet:
+        ipv4_address: 192.173.0.7
     restart: always
     environment:
       POSTGRES_PASSWORD: password
       POSTGRES_DB: dev_integration
       POSTGRES_USER: dev_integration
     volumes: 
-      - 'moodleintegrationdb:/var/lib/postgresql'
+      - 'monashintegrationdb:/var/lib/postgresql'
   # simplesamlphp:
   #   build: ./saml
   #   ports:
-  #     - "7443:7443"
+  #     - "17443:7443"
   #   networks:
   #     moodlenet:
-  #       ipv4_address: 192.172.0.2
+  #       ipv4_address: 192.173.0.2
   #   volumes:
   #     - ./saml:/saml
   # mongodb:
   #   image: mongo:latest
   #   ports:
-  #     - "2701:27017"
+  #     - "12701:27017"
   #   networks:
   #     moodlenet:
-  #       ipv4_address: 192.172.0.6
+  #       ipv4_address: 192.173.0.6
 volumes:
-    moodledb:
-    moodletestdb:
-    moodleintegrationdb: 
+    monashdb:
+    monashtestdb:
+    monashintegrationdb: 
 networks:
-  moodlenet:
+  monashnet:
     external: true
