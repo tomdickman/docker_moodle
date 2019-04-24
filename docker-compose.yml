@@ -11,7 +11,7 @@ services:
       moodlenet:
         ipv4_address: 192.172.0.5
     volumes:
-      - ./moodle-master:/siteroot
+      - ./monash_mm:/siteroot
   moodle-db:
     image: postgres
     ports:
@@ -40,25 +40,40 @@ services:
       POSTGRES_USER: moodle_user
     volumes: 
       - 'moodletestdb:/var/lib/postgresql'
-  simplesamlphp:
-    build: ./saml
+  moodle-integration-db:
+    image: postgres
     ports:
-      - "7443:7443"
+      - "5434:5432"
     networks:
       moodlenet:
-        ipv4_address: 192.172.0.2
-    volumes:
-      - ./saml:/saml
-  mongodb:
-    image: mongo:latest
-    ports:
-      - "2701:27017"
-    networks:
-      moodlenet:
-        ipv4_address: 192.172.0.6
+        ipv4_address: 192.172.0.7
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: dev_integration
+      POSTGRES_USER: dev_integration
+    volumes: 
+      - 'moodleintegrationdb:/var/lib/postgresql'
+  # simplesamlphp:
+  #   build: ./saml
+  #   ports:
+  #     - "7443:7443"
+  #   networks:
+  #     moodlenet:
+  #       ipv4_address: 192.172.0.2
+  #   volumes:
+  #     - ./saml:/saml
+  # mongodb:
+  #   image: mongo:latest
+  #   ports:
+  #     - "2701:27017"
+  #   networks:
+  #     moodlenet:
+  #       ipv4_address: 192.172.0.6
 volumes:
     moodledb:
     moodletestdb:
+    moodleintegrationdb: 
 networks:
   moodlenet:
     external: true
