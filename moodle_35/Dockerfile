@@ -74,6 +74,7 @@ COPY moodle.pem /etc/nginx/conf.d/moodle.pem
 # Replace the Nginx default server files with our own
 RUN rm /etc/nginx/sites-available/default
 COPY nginx-site.conf /etc/nginx/sites-available/default
+COPY nginx-site-https.conf /etc/nginx/sites-available/secure
 
 RUN rm /etc/nginx/nginx.conf
 COPY nginx.conf /etc/nginx/nginx.conf
