@@ -1,6 +1,6 @@
 version: '3'
 # Before running this, make sure you create the docker network via this command:
-# docker network create --driver=bridge --subnet=192.172.0.0/16 --gateway=192.172.0.1 moodlenet
+# docker network create --driver=bridge --subnet=192.173.0.0/16 --gateway=192.173.0.1 moodlenet
 services:
   monash:
     build: ./moodle_35
