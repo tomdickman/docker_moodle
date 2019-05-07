@@ -54,6 +54,16 @@ services:
       POSTGRES_USER: dev_integration
     volumes: 
       - 'monashintegrationdb:/var/lib/postgresql'
+  monash-redis:
+    build: ./redis
+    ports:
+      - "16379:6379"
+    networks:
+      monashnet:
+        ipv4_address: 192.173.0.8
+    restart: always
+    volumes:
+      - 'monashredis:/data'
   # simplesamlphp:
   #   build: ./saml
   #   ports:
@@ -73,7 +83,8 @@ services:
 volumes:
     monashdb:
     monashtestdb:
-    monashintegrationdb: 
+    monashintegrationdb:
+    monashredis:
 networks:
   monashnet:
     external: true

@@ -25,13 +25,16 @@ RUN apt-get update -y \
     php-intl \
     php-xmlrpc \
     php-ldap \
+    php-redis \
     locales \
     unzip \
     git \
     php-mysql \
     cron \
     mongodb \
-    vim
+    vim \
+    redis-server \
+    systemd
 
 # COPY mongodb.ini /etc/php/7.2/mods-available/mongodb.ini
 # RUN pecl install mongodb
