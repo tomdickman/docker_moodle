@@ -1,90 +1,90 @@
 version: '3'
 # Before running this, make sure you create the docker network via this command:
-# docker network create --driver=bridge --subnet=192.173.0.0/16 --gateway=192.173.0.1 monashnet
+# docker network create --driver=bridge --subnet=192.174.0.0/16 --gateway=192.174.0.1 corenet
 services:
-  monash:
+  moodle-core:
     build: ./moodle_35
     ports:
-      - "18443:443"
-      - "18080:80"
+      - "28443:443"
+      - "28080:80"
     networks:
       monashnet:
-        ipv4_address: 192.173.0.5
+        ipv4_address: 192.174.0.5
     volumes:
-      - ./monash-siteroot:/siteroot
-  monash-db:
+      - ./moodle-master:/siteroot
+  core-db:
     image: postgres
     ports:
-      - "15432:5432"
+      - "25432:5432"
     networks:
       monashnet:
-        ipv4_address: 192.173.0.3
+        ipv4_address: 192.174.0.3
     restart: always
     environment:
       POSTGRES_PASSWORD: password
       POSTGRES_DB: moodle
       POSTGRES_USER: moodle_user
     volumes: 
-      - 'monashdb:/var/lib/postgresql'
-  monash-test-db:
+      - 'coredb:/var/lib/postgresql'
+  core-test-db:
     image: postgres
     ports:
-      - "15433:5432"
+      - "25433:5432"
     networks:
-      monashnet:
-        ipv4_address: 192.173.0.4
+      corenet:
+        ipv4_address: 192.174.0.4
     restart: always
     environment:
       POSTGRES_PASSWORD: password
       POSTGRES_DB: moodle
       POSTGRES_USER: moodle_user
     volumes: 
-      - 'monashtestdb:/var/lib/postgresql'
-  monash-integration-db:
-    image: postgres
-    ports:
-      - "15434:5432"
-    networks:
-      monashnet:
-        ipv4_address: 192.173.0.7
-    restart: always
-    environment:
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: dev_integration
-      POSTGRES_USER: dev_integration
-    volumes: 
-      - 'monashintegrationdb:/var/lib/postgresql'
-  monash-redis:
-    build: ./redis
-    ports:
-      - "16379:6379"
-    networks:
-      monashnet:
-        ipv4_address: 192.173.0.8
-    restart: always
-    volumes:
-      - 'monashredis:/data'
+      - 'coretestdb:/var/lib/postgresql'
+  # core-integration-db:
+  #   image: postgres
+  #   ports:
+  #     - "25434:5432"
+  #   networks:
+  #     corenet:
+  #       ipv4_address: 192.174.0.7
+  #   restart: always
+  #   environment:
+  #     POSTGRES_PASSWORD: password
+  #     POSTGRES_DB: dev_integration
+  #     POSTGRES_USER: dev_integration
+  #   volumes: 
+  #     - 'monashintegrationdb:/var/lib/postgresql'
+  # core-redis:
+  #   build: ./redis
+  #   ports:
+  #     - "26379:6379"
+  #   networks:
+  #     corenet:
+  #       ipv4_address: 192.174.0.8
+  #   restart: always
+  #   volumes:
+  #     - 'coreredis:/data'
   # simplesamlphp:
   #   build: ./saml
   #   ports:
-  #     - "17443:7443"
+  #     - "27443:7443"
   #   networks:
   #     moodlenet:
-  #       ipv4_address: 192.173.0.2
+  #       ipv4_address: 192.174.0.2
   #   volumes:
   #     - ./saml:/saml
   # mongodb:
   #   image: mongo:latest
   #   ports:
-  #     - "12701:27017"
+  #     - "22701:27017"
   #   networks:
-  #     moodlenet:
-  #       ipv4_address: 192.173.0.6
+  #     corenet:
+  #       ipv4_address: 192.174.0.6
 volumes:
-    monashdb:
-    monashtestdb:
-    monashintegrationdb:
-    monashredis:
+    coredb:
+    coretestdb:
+    # monashintegrationdb:
+    # monashredis:
 networks:
-  monashnet:
+  corenet:
     external: true
