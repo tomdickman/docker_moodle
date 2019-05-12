@@ -8,7 +8,7 @@ services:
       - "28443:443"
       - "28080:80"
     networks:
-      monashnet:
+      corenet:
         ipv4_address: 192.174.0.5
     volumes:
       - ./moodle-master:/siteroot
@@ -17,7 +17,7 @@ services:
     ports:
       - "25432:5432"
     networks:
-      monashnet:
+      corenet:
         ipv4_address: 192.174.0.3
     restart: always
     environment:
