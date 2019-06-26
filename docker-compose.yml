@@ -3,7 +3,7 @@ version: '3'
 # docker network create --driver=bridge --subnet=192.174.0.0/16 --gateway=192.174.0.1 corenet
 services:
   moodle-core:
-    build: ./moodle_35
+    build: ./builds/core
     ports:
       - "28443:443"
       - "28080:80"
@@ -40,20 +40,6 @@ services:
       POSTGRES_USER: moodle_user
     volumes: 
       - 'coretestdb:/var/lib/postgresql'
-  # core-integration-db:
-  #   image: postgres
-  #   ports:
-  #     - "25434:5432"
-  #   networks:
-  #     corenet:
-  #       ipv4_address: 192.174.0.7
-  #   restart: always
-  #   environment:
-  #     POSTGRES_PASSWORD: password
-  #     POSTGRES_DB: dev_integration
-  #     POSTGRES_USER: dev_integration
-  #   volumes: 
-  #     - 'monashintegrationdb:/var/lib/postgresql'
   # core-redis:
   #   build: ./redis
   #   ports:
@@ -83,8 +69,6 @@ services:
 volumes:
     coredb:
     coretestdb:
-    # monashintegrationdb:
-    # monashredis:
 networks:
   corenet:
     external: true
