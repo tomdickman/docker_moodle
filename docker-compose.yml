@@ -11,7 +11,7 @@ services:
       corenet:
         ipv4_address: 192.174.0.5
     volumes:
-      - ./moodle-master:/siteroot
+      - ./moodle-core:/siteroot
   core-db:
     image: postgres
     ports:
