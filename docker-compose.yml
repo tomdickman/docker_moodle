@@ -5,8 +5,8 @@ services:
   metadata:
     build: ./builds/metadata
     ports:
-      - "28443:443"
-      - "28080:80"
+      - "65443:443"
+      - "65080:80"
     networks:
       metadatanet:
         ipv4_address: 192.192.0.5
