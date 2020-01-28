@@ -1,52 +1,52 @@
 version: '3'
 # Before running this, make sure you create the docker network via this command:
-# docker network create --driver=bridge --subnet=192.174.0.0/16 --gateway=192.174.0.1 corenet
+# docker network create --driver=bridge --subnet=192.192.0.0/16 --gateway=192.192.0.1 metadatanet
 services:
-  moodle-core:
-    build: ./builds/core
+  metadata:
+    build: ./builds/metadata
     ports:
       - "28443:443"
       - "28080:80"
     networks:
       corenet:
-        ipv4_address: 192.174.0.5
+        ipv4_address: 192.192.0.5
     volumes:
-      - ./moodle-core:/siteroot
-  core-db:
+      - ./metadata-dev:/siteroot
+  metadata-db:
     image: postgres
     ports:
       - "25432:5432"
     networks:
       corenet:
-        ipv4_address: 192.174.0.3
+        ipv4_address: 192.192.0.3
     restart: always
     environment:
       POSTGRES_PASSWORD: password
       POSTGRES_DB: moodle
       POSTGRES_USER: moodle_user
     volumes: 
-      - 'coredb:/var/lib/postgresql'
-  core-test-db:
+      - 'metadatadb:/var/lib/postgresql'
+  metadata-test-db:
     image: postgres
     ports:
       - "25433:5432"
     networks:
       corenet:
-        ipv4_address: 192.174.0.4
+        ipv4_address: 192.192.0.4
     restart: always
     environment:
       POSTGRES_PASSWORD: password
       POSTGRES_DB: moodle
       POSTGRES_USER: moodle_user
     volumes: 
-      - 'coretestdb:/var/lib/postgresql'
-  # core-redis:
+      - 'metadatatestdb:/var/lib/postgresql'
+  # metadata-redis:
   #   build: ./redis
   #   ports:
   #     - "26379:6379"
   #   networks:
   #     corenet:
-  #       ipv4_address: 192.174.0.8
+  #       ipv4_address: 192.192.0.8
   #   restart: always
   #   volumes:
   #     - 'coreredis:/data'
@@ -56,7 +56,7 @@ services:
   #     - "27443:7443"
   #   networks:
   #     moodlenet:
-  #       ipv4_address: 192.174.0.2
+  #       ipv4_address: 192.192.0.2
   #   volumes:
   #     - ./saml:/saml
   # mongodb:
@@ -65,10 +65,10 @@ services:
   #     - "22701:27017"
   #   networks:
   #     corenet:
-  #       ipv4_address: 192.174.0.6
+  #       ipv4_address: 192.192.0.6
 volumes:
-    coredb:
-    coretestdb:
+    metadatadb:
+    metadatatestdb:
 networks:
-  corenet:
+  metadatanet:
     external: true
