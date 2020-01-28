@@ -8,16 +8,14 @@ services:
       - "28443:443"
       - "28080:80"
     networks:
-      corenet:
+      metadatanet:
         ipv4_address: 192.192.0.5
     volumes:
       - ./metadata-dev:/siteroot
   metadata-db:
     image: postgres
-    ports:
-      - "25432:5432"
     networks:
-      corenet:
+      metadatanet:
         ipv4_address: 192.192.0.3
     restart: always
     environment:
@@ -28,10 +26,8 @@ services:
       - 'metadatadb:/var/lib/postgresql'
   metadata-test-db:
     image: postgres
-    ports:
-      - "25433:5432"
     networks:
-      corenet:
+      metadatanet:
         ipv4_address: 192.192.0.4
     restart: always
     environment:
@@ -42,18 +38,14 @@ services:
       - 'metadatatestdb:/var/lib/postgresql'
   # metadata-redis:
   #   build: ./redis
-  #   ports:
-  #     - "26379:6379"
   #   networks:
-  #     corenet:
+  #     metadatanet:
   #       ipv4_address: 192.192.0.8
   #   restart: always
   #   volumes:
   #     - 'coreredis:/data'
   # simplesamlphp:
   #   build: ./saml
-  #   ports:
-  #     - "27443:7443"
   #   networks:
   #     moodlenet:
   #       ipv4_address: 192.192.0.2
@@ -61,10 +53,8 @@ services:
   #     - ./saml:/saml
   # mongodb:
   #   image: mongo:latest
-  #   ports:
-  #     - "22701:27017"
   #   networks:
-  #     corenet:
+  #     metadatanet:
   #       ipv4_address: 192.192.0.6
 volumes:
     metadatadb:
