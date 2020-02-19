@@ -1,46 +1,46 @@
 version: '3'
 # Before running this, make sure you create the docker network via this command:
-# docker network create --driver=bridge --subnet=192.192.0.0/16 --gateway=192.192.0.1 metadatanet
+# docker network create --driver=bridge --subnet=192.193.0.0/16 --gateway=192.193.0.1 metadata37net
 services:
-  metadata:
-    build: ./builds/metadata
+  metadata37:
+    build: ./builds/metadata-37
     ports:
-      - "65443:443"
-      - "65080:80"
+      - "65543:443"
+      - "65180:80"
     networks:
-      metadatanet:
-        ipv4_address: 192.192.0.5
+      metadata37net:
+        ipv4_address: 192.193.0.5
     volumes:
-      - ./metadata-dev:/siteroot
-  metadata-db:
+      - ./metadata37-dev:/siteroot
+  metadata37-db:
     image: postgres
     networks:
-      metadatanet:
-        ipv4_address: 192.192.0.3
+      metadata37net:
+        ipv4_address: 192.193.0.3
     restart: always
     environment:
       POSTGRES_PASSWORD: password
       POSTGRES_DB: moodle
       POSTGRES_USER: moodle_user
     volumes: 
-      - 'metadatadb:/var/lib/postgresql'
-  metadata-test-db:
+      - 'metadata37db:/var/lib/postgresql'
+  metadata37-test-db:
     image: postgres
     networks:
-      metadatanet:
-        ipv4_address: 192.192.0.4
+      metadata37net:
+        ipv4_address: 192.193.0.4
     restart: always
     environment:
       POSTGRES_PASSWORD: password
       POSTGRES_DB: moodle
       POSTGRES_USER: moodle_user
     volumes: 
-      - 'metadatatestdb:/var/lib/postgresql'
-  # metadata-redis:
+      - 'metadata37testdb:/var/lib/postgresql'
+  # metadata37-redis:
   #   build: ./redis
   #   networks:
-  #     metadatanet:
-  #       ipv4_address: 192.192.0.8
+  #     metadata37net:
+  #       ipv4_address: 192.193.0.8
   #   restart: always
   #   volumes:
   #     - 'coreredis:/data'
@@ -48,17 +48,17 @@ services:
   #   build: ./saml
   #   networks:
   #     moodlenet:
-  #       ipv4_address: 192.192.0.2
+  #       ipv4_address: 192.193.0.2
   #   volumes:
   #     - ./saml:/saml
   # mongodb:
   #   image: mongo:latest
   #   networks:
-  #     metadatanet:
-  #       ipv4_address: 192.192.0.6
+  #     metadata37net:
+  #       ipv4_address: 192.193.0.6
 volumes:
-    metadatadb:
-    metadatatestdb:
+    metadata37db:
+    metadata37testdb:
 networks:
-  metadatanet:
+  metadata37net:
     external: true
