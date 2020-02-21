@@ -5,13 +5,13 @@ services:
   metadata37:
     build: ./builds/metadata-37
     ports:
-      - "65543:443"
-      - "65180:80"
+      - "60043:443"
+      - "60080:80"
     networks:
       metadata37net:
         ipv4_address: 192.193.0.5
     volumes:
-      - ./metadata37-dev:/siteroot
+      - ./metadata-dev:/siteroot
   metadata37-db:
     image: postgres
     networks:
