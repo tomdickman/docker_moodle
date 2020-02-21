@@ -11,7 +11,7 @@ services:
       metadata37net:
         ipv4_address: 192.193.0.5
     volumes:
-      - ./metadata-dev:/siteroot
+      - ./metadata37-dev:/siteroot
   metadata37-db:
     image: postgres
     networks:
